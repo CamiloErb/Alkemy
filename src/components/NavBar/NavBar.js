@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../../images/logo.png"
 
-export const NavBar = () => {
-    const token = localStorage.getItem("token")
+export const NavBar = (props) => {
+    const token = props?.token
     const [tokenState, setTokenState] = useState(token)
 
     const handleClick = () => {
@@ -26,5 +26,4 @@ export const NavBar = () => {
 
 const LogoWrapper = styled(Link)`
     width: 6em;
-    heigth: 6em;
 `

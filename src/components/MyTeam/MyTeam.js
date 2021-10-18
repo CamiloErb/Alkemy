@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Powerstats } from "../Powerstats/Powerstats"
 import { XIcon, InfoIcon } from "@primer/octicons-react"
 import { AvgWH } from "../AvgWH/AvgWH"
 import { Details } from "../Details/Details"
+import {useSelector,useDispatch } from "react-redux";
+import { removeHero } from "./teamSlice"
+import Swal from "sweetalert2";
 
-export const MyTeam = (props) => {
-    const [heroes, setHeroes] = useState([])
+export const MyTeam = () => {
+    const dispatch = useDispatch()
+    const {myTeam} = useSelector((state) => state.team)
     const [isOpen, setIsOpen] = useState(false)
     const [clickedHeroe, setClickedHeroe] = useState({})
     const biography = clickedHeroe.biography
     const appearance = clickedHeroe.appearance
 
-    useEffect(() => {
-        setHeroes(props.heroes)
-    }, [props.heroes])
 
 
     const handleModal = (e, heroe) => {
@@ -27,18 +28,24 @@ export const MyTeam = (props) => {
 
     }
     const handleDelete = (id) => {
-        const updatedHeroes = heroes.filter(heroe => heroe.id !== id)
-        setHeroes(updatedHeroes)
-        props.deleteHeroes(id)
+        dispatch(removeHero(id))
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Heroe deleted!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
     }
+
     return <div className="bg-white ">
         <div className="container border border-dark shadow-lg mt-3 m-auto row ">
             <div className="container  border border-dark border-1 mt-3 col-lg-9  ">
                 <h2 className="m-2 mt-3">MY TEAM:</h2>
                 <div >
 
-                    {heroes.length > 0 ? null : <h4 className="m-auto mt-5 w-25" >no heroes added </h4>}
-                    {heroes.map(heroe => {
+                    {myTeam.length > 0 ? null : <h4 className="m-auto mt-5 w-25 text-secondary" >no heroes added </h4>}
+                    {myTeam.map(heroe => {
                         const powerstats = heroe.powerstats
                         const keys = Object.keys(powerstats)
                         return <div key={heroe.id}onClick={(e) => handleModal(e, heroe)}>
@@ -79,11 +86,11 @@ export const MyTeam = (props) => {
             <div className=" mt-3 border border-secondary border-1 col-lg-3">
                 <div>
                     <h3 className="m-3">Team powerstats</h3>
-                    <Powerstats list={heroes}></Powerstats>
+                    <Powerstats list={myTeam}></Powerstats>
                 </div>
                 <div>
                     <h3 className="m-3">team weights and heights (avg)</h3>
-                    <AvgWH list={heroes}></AvgWH>
+                    <AvgWH list={myTeam}></AvgWH>
                 </div>
 
             </div>

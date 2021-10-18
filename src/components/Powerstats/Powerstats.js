@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 
 export const Powerstats = (props) => {
     const stats = ["intelligence" , "strength", "speed", "durability",  "power", "combat"]
-    const [keys, setKeys] = useState([])
+    const powerstats = props.list? props.list.map(heroe => heroe.powerstats) : []
 
-    const powerstats = props.list.map(heroe => heroe.powerstats)
+    const [keys, setKeys] = useState([])
 
     const getPowerstatValue = (stat) => {
         const powerstatsNumber = powerstats.map(powerstat => parseInt(powerstat[stat]))
@@ -24,6 +24,6 @@ export const Powerstats = (props) => {
 
     return <div className="list-group">
         {keys.map(key =>
-            <div key={Object.keys(key)} className="m-2 list-group-item "><h5>{Object.keys(key)}:</h5> <h5>{Object.values(key)}</h5></div>)}
+            <div key={Object.keys(key)} className="m-2 list-group-item "><h5 >{Object.keys(key)}:</h5> <h5 className="text-secondary">{Object.values(key)}</h5></div>)}
     </div>
 }

@@ -10,7 +10,7 @@ function App() {
   return (
     <div id="app" className="min-vh-100 ">
       <BrowserRouter>
-        <NavBar ></NavBar>
+        <NavBar token={token}></NavBar>
         {token ? <Redirect to="/"></Redirect> : <Redirect to="/login"></Redirect>}
         <Switch>
           <Route path="/login" component={Login} ></Route>
